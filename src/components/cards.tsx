@@ -1,74 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-// const Container = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   gap: 13px;
-//   padding: 20px;
-//   border-radius: 12px;
-//   margin-left: 360px;
-//   margin-top: 30px;
-  
- 
-
-// `;
-
-
-
-// const Container = styled.div`
-//   display: flex;
-//    justify-content: center;
-//    gap: 13px;
-//    padding: 20px;
-//    border-radius: 12px;
-//    margin-left: 360px;
-//    margin-top: 30px;
-
-//   @media (max-width: 768px) {
-//     grid-template-columns: repeat(2, 1fr); /* 2 columns layout */
-//     justify-content: center;
-//   }
-
- 
-// `;
-// const Container = styled.div`
-//   width: 800px;
-//   height: 137px;
-//   display: grid; /* Change to grid */
-//   grid-template-columns: repeat(4, 1fr); /* Default: 4 items in one row */
-//   justify-content: center;
-//   gap: 13px;
-//   padding: 20px;
-//   border-radius: 12px;
-//   margin-left: 480px;
-//   margin-top: 30px;
-
-//   @media (max-width: 768px) {
-//     grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobile */
-   
-//   }
-// `;
-
-
 const Container = styled.div`
-  width: 100%; /* Use full width or a percentage-based value */
-  max-width: 800px; /* Set max-width to limit it on large screens */
+  width: 100%; 
+  max-width: 800px; 
   height: 137px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Default: 4 items in one row */
+  grid-template-columns: repeat(4, 1fr); 
   justify-content: center;
   gap: 13px;
   padding: 20px;
   border-radius: 12px;
-  margin-left: auto; /* Align to center horizontally */
-  margin-right: 126px; /* Align to center horizontally */
+  margin-left: auto;
+  margin-right: 126px;
   margin-top: 30px;
-  box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+  box-sizing: border-box; 
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobile */
-    padding: 10px; /* Optionally reduce padding on mobile */
+    grid-template-columns: repeat(2, 1fr); 
+    padding: 10px; 
     margin-left: 20px;
     gap: 15px;
   }
@@ -151,11 +101,11 @@ interface Coin {
   current_price: number;
 }
 
-// Persian names for the 4 selected coins
+
 const persianNames: Record<string, string> = {
   binancecoin: "بایننس کوین",
   ethereum: "اتریوم",
-  ripple: "ریپل", // Updated to Tether
+  ripple: "ریپل", 
   bitcoin: "بیت کوین",
 };
 
