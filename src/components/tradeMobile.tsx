@@ -36,7 +36,6 @@ const Tab = styled.div`
   padding: 8px;
   cursor: pointer;
   font-size: 20px;
-  border-bottom: ${(props) => (props.active ? "2px solid #3b82f6" : "none")};
 `;
 
 const FormGroupWrapper = styled.div`
@@ -247,13 +246,11 @@ const ExchangeBox = () => {
   return (
     <Container>
       <Tabs>
-        <Tab active={activeTab === "quick"} onClick={() => setActiveTab("quick")}>
+        <Tab style={{borderBottom:"2px solid #0257EA"}}>
           تعیین قیمت
         </Tab>
         <Tab
           style={{ borderBottom: "1px solid #353838" }}
-          active={activeTab === "setPrice"}
-          onClick={() => setActiveTab("setPrice")}
         >
           معامله سریع
         </Tab>
