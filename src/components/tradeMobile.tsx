@@ -66,7 +66,7 @@ const Input = styled.input`
   font-size: 14px;
   outline: none;
   height: 30px;
-  padding-right: 10px; /* Ensures text inside input does not overlap */
+  padding-right: 10px; 
 `;
 
 const PlaceHolder = styled.span`
@@ -155,13 +155,13 @@ color: #E7E9E8;
 
   div {
     display: flex;
-    justify-content: space-between;  /* Ensures spacing between spans */
-    align-items: center; /* Aligns text properly */
-    margin-bottom: 5px; /* Optional spacing between rows */
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 5px; 
   }
 
   span {
-    margin: 0 5px; /* Ensures some space between the text */
+    margin: 0 5px; 
   }
 `;
 

@@ -25,8 +25,8 @@ const Table = styled.table`
   margin:  0 auto;
   @media (max-width: 768px) {
     max-width: 380px;
-    th:nth-child(n + 3),
-    td:nth-child(n + 3) {
+    th:nth-child(n + 4),
+    td:nth-child(n + 4) {
       display: none; 
   } }
 `;
@@ -34,6 +34,9 @@ const Table = styled.table`
 
 const TableRow = styled.tr`
   margin-right: 0;
+  @media (max-width:768px) {
+    border-bottom: 2px solid #505656;
+  }
  
 `;
 

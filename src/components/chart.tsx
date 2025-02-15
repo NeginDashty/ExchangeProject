@@ -251,7 +251,7 @@ const CryptoChart = () => {
             <CoinItem key={coin.id}>
             <CoinInfo>
               <CoinImage src={coin.image} alt={coin.name} />
-              {coin.name} ({coin.symbol.toUpperCase()})
+              {coin.name} ({coin.symbol})
             </CoinInfo>
             
             <Balance value={staticBalances[coin.id]}>
