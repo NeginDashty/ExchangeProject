@@ -6,6 +6,9 @@ import iconGroup from "@/assets/iconGroup.png";
 import userIcon from "@/assets/user.png"; 
 import notificationIcon from "@/assets/notification.png"; 
 import menuIcon from "@/assets/menu.png"; 
+
+
+
 const NavbarContainer = styled.nav`
   background-color: #101828;
   color: white;
@@ -22,6 +25,7 @@ const NavbarContainer = styled.nav`
   ;
 
   @media (max-width: 768px) {
+    width: 100%;
     justify-content: center; 
     position: relative;
     padding: 2rem 1.5rem;

@@ -3,6 +3,13 @@ import styled from 'styled-components';
 import changes from "@/assets/changes.png"
 import Image from 'next/image';
 import arrow from "@/assets/arrow.png"
+import {PricesApi} from "@/Services/Prices";
+import GenerateRandomValue from "@/utils/GenerateRnadomNum";
+import { Coin } from '@/Types/types';
+import { persianNames } from "@/Types/types";  
+import { convertToToman } from '@/utils/ConvertToToman';
+
+
 const Container = styled.div`
   padding: 20px;
   direction: rtl;
@@ -94,35 +101,18 @@ margin-top: 20px;
 `
 
 
-
 const Coins = () => {
-  const [coins, setCoins] = useState([]);
+  const [coins, setCoins] = useState<Coin[]>([]);
 
   useEffect(() => {
-    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc')
+    fetch(PricesApi)
       .then(response => response.json())
-      .then(data => {
-        setCoins(data.slice(0, 11)); 
-      });
+      .then((data: Coin[]) => {
+        setCoins(data.slice(0, 11));
+      })
+      .catch(error => console.error("Error fetching data:", error));
   }, []);
 
-  const persianNames = {
-    bitcoin: 'بیت کوین',
-    tether: 'تتر',
-    una: 'una',
-    uma: ' UMA',
-    fantom: 'فانتوم',
-    matic: 'پالیگان',
-    binancecoin: 'بایننس کوین',
-    gms: 'گیم استار',
-    stellar: 'استلار',
-    tron: 'ترون'
-  };
-
-  const generateRandomValue = () => {
-    return (Math.random() * 100).toFixed(2); 
-
-  }
   return (
     <Container>
       <TitleText>آخرين تراكنش ها</TitleText>
@@ -144,7 +134,7 @@ const Coins = () => {
                 <Icon src={coin.image} alt={coin.name} />
                 {persianNames[coin.id] || coin.name}
               </TableCell>
-              <TableCell>${coin.current_price.toLocaleString()}</TableCell>
+              <TableCell>{convertToToman(coin.current_price)} تومان</TableCell>
               <TableCell
                 style={{
                   color: coin.price_change_24h > 0 ? '#00966D' : '#FF0000',
@@ -154,7 +144,7 @@ const Coins = () => {
               </TableCell>
               <TableCell style={{color:"#00966D"}}>9.6% ▲</TableCell>
               <TableCell>
-                {generateRandomValue()} میلیارد 
+                {GenerateRandomValue()} میلیارد 
               </TableCell>
               <TableCell>
                 <ChangesImage src={changes} alt="تغییرات" /> 

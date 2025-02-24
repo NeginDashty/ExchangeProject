@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import {MarketCapApi} from "@/Services/MarketCap";
+import { Coin } from "@/Types/types";
+import { convertToToman } from "@/utils/ConvertToToman";
 
 const Container = styled.div`
   width: 100%; 
@@ -19,7 +22,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr); 
     padding: 10px; 
-    margin-left: 20px;
+    margin-left: 8%;
     gap: 15px;
   }
   
@@ -93,15 +96,6 @@ const Price = styled.div`
   margin-top: 20px;
 `;
 
-interface Coin {
-  id: string;
-  symbol: string;
-  name: string;
-  image: string;
-  current_price: number;
-}
-
-
 const persianNames: Record<string, string> = {
   binancecoin: "بایننس کوین",
   ethereum: "اتریوم",
@@ -115,10 +109,10 @@ const CryptoCard = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
 
   useEffect(() => {
-    fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc")
+    const url = MarketCapApi(selectedCoins);
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        // Filter and sort to match the required order
         const filteredCoins = selectedCoins.map((id) => data.find((coin: Coin) => coin.id === id)).filter(Boolean);
         setCoins(filteredCoins);
       })
@@ -136,7 +130,8 @@ const CryptoCard = () => {
             <EnglishName>{coin.symbol.toUpperCase()}</EnglishName>
             <PersianName>{persianNames[coin.id] || "نام نامشخص"}</PersianName>
           </NameWrapper>
-          <Price>{coin.current_price.toLocaleString()} تومان</Price>
+          <Price>{convertToToman(coin.current_price)} تومان</Price>
+
         </Card>
       ))}
     </Container>

@@ -1,32 +1,52 @@
 import axios from "axios";
-
-const token = "1299570|rXMGiTXeQL2vNCXoj7I8V0AEhqZ0Ln5fGM97bC1I";
+import { Token } from "@/Consts/token"; 
+import { TradeingApi } from "@/Services/TradeApi";
 
 const Trade = () => {
-    axios
-      .get("https://test.tetherland.app/api/v5/user/converter/submit", {
-        params: {
-          give: "USDT",
-          give_amount: 10,
-          receive: "SHIB",
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })
-      .then((response) => {
-        if (!response.data.status) {
-          alert(response.data.message); 
-        } else {
-          console.log("API Response:", response.data); 
-        }
-      })
-      .catch((error) => {
-        alert("An error occurred while fetching data.");
-      });
-  };
+  const url = TradeingApi;
+
   
+  if (!Token) {
+    alert("Token invalid or expired!");
+    return;
+  }
+
+  
+  if (!url) {
+    alert("Api invalid!");
+    return;
+  }
+
+  axios
+    .get(url, {
+      params: {
+        give: "USDT",
+        give_amount: 10,
+        receive: "SHIB",
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    .then((response) => {
+      if (!response?.data) {
+        alert("Invalid API response.");
+        return;
+      }
+
+      
+      if (!response.data.status) {
+        alert(response.data.message || "An error occurred.");
+      } else {
+        console.log("API Response:", response.data);
+      }
+    })
+    .catch((error) => {
+      alert("An error occurred while fetching data.");
+      console.error(error);
+    });
+};
+
 export default Trade;
-  

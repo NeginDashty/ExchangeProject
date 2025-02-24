@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import styled from "styled-components";
@@ -9,7 +9,8 @@ import wallet from "@/assets/wallet.png"
 import line from "@/assets/Line .png"
 import more from "@/assets/more.png"
 import Trade from "@/pages/api/TradeData"
-
+import { log } from "console";
+import {PricesApi} from "@/Services/Prices";
 
 const TradeBox = styled.div`
   display: block;
@@ -19,16 +20,17 @@ const TradeBox = styled.div`
   border-radius: 16px;
   padding: 24px;
   color: white;
-  position: relative;
-  top: -149px; 
   margin-left: 30px;
-  margin-top: 8px;
+  margin-top: -120px; 
   margin-bottom: 0;
+  overflow: hidden;
 
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;
+
+
 
 const Header = styled.div`
   display: flex;
@@ -159,7 +161,7 @@ const BalanceContainer = styled.div`
 const Wallet = styled(Image)`
   width: 20px;
   height: 20px;
-  padding: 0;
+  padding:0;
   margin-right: 8px;
   
 `;
@@ -185,24 +187,46 @@ const OrderText=styled.p`
 
 const MoreIcon=styled(Image)`
   margin-top: 42px;
-`
+`;
 
-const CryptoTradeBox = () => {
- const [tomanValue, setTomanValue] = useState("");
-    const [dashValue, setDashValue] = useState("---");
-  
-    const handleTomanChange = (e) => {
-      const value = e.target.value;
-      setTomanValue(value);
-        if (value) {
-        setDashValue("---");
-      } else {
-        setDashValue("");
+  const CryptoTradeBox = () => {
+  const [toman, setToman] = useState("");
+  const [convertedValue, setConvertedValue] = useState("");
+  const [ethPrice, setEthPrice] = useState(null); 
+  const url=PricesApi;
+
+  useEffect(() => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await fetch(
+          PricesApi
+        );
+        const data = await response.json();
+        const ethData = data.find((coin) => coin.id === "ethereum"); 
+        if (ethData) {
+          const totalValue=ethData.current_price * 90000;
+          setEthPrice(totalValue); 
+        }
+      } catch (error) {
+        console.error("Error fetching Ethereum price:", error);
       }
     };
-  
+
+    fetchEthPrice();
+  }, []);
 
 
+  const handleTomanChange = (e) => {
+    const inputValue = e.target.value;
+    setToman(inputValue);
+    
+    if (inputValue && ethPrice) {
+      const convertedValue = (inputValue / ethPrice ).toFixed(4); 
+      setConvertedValue(convertedValue);
+    } else {
+      setConvertedValue("");
+    }
+  };
 
   return (
     <TradeBox>
@@ -213,7 +237,7 @@ const CryptoTradeBox = () => {
       </Header>
 
       <BalanceContainer>
-        <Wallet src={wallet} alt="Wallet"  />
+        <Wallet src={wallet} alt="Wallet" />
         <Balance className="mr-2">موجودی: IRT ۲,۵۰۰,۰۰۰</Balance>
       </BalanceContainer>
 
@@ -222,9 +246,11 @@ const CryptoTradeBox = () => {
         <CoinContainer>
           <CoinIcon src={tomam} alt="Toman" width={24} height={24} />
           <Spann>تومان</Spann>
-          <Input type="number" 
-          value={tomanValue}
-          onChange={(e) => handleTomanChange(e)} 
+          <Input
+            type="number"
+            value={toman}
+            onChange={handleTomanChange}
+            placeholder="مقدار تومان را وارد کنید"
           />
         </CoinContainer>
       </TomanContainer>
@@ -238,9 +264,10 @@ const CryptoTradeBox = () => {
         <CoinContainer>
           <CoinIcon src={eth} alt="Ethereum" width={24} height={24} />
           <Spann>اتریوم</Spann>
-          <Input type="number"
-          value={dashValue}
-          readOnly 
+          <Input
+            type="text"
+            value={convertedValue} 
+            readOnly
           />
         </CoinContainer>
       </div>
@@ -249,7 +276,6 @@ const CryptoTradeBox = () => {
       <OpenOrder>
         <MoreIcon src={more} alt="more" width={24} height={24} />
         <OrderText>معاملات باز</OrderText>
-
       </OpenOrder>
     </TradeBox>
   );

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
+import {CoinsApi} from "@/Services/ApiCoins";
+import { Coin , staticBalances } from "@/Types/types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -12,23 +14,22 @@ const Wrapper = styled.div`
   height: 524px;
   background-color: #101828;
   direction: rtl;
-  margin-left: 500px;
   position: absolute;
-  margin-bottom: 0;
-  padding-bottom: 0;
+  margin-left: 500px;
   top: 340px;
   padding: 10px;
   @media (max-width: 768px) {
-    width: 400px; 
+    max-width: 500px; 
     height: auto; 
-    margin-left: 80px;
-    /* margin-right: auto; */
+    margin-left: 8%;
     margin-top: 200px;
     top: auto;
     position: relative;
   }
 
 `;
+
+
 
 const Container = styled.div`
   display: flex;
@@ -117,6 +118,9 @@ const Footer = styled.div`
   gap: 20px;
   justify-content: flex-end;
   margin-left: 10px;
+  @media (max-width:768px) {
+    margin-left: 16%;
+  }
 
 `;
 
@@ -165,14 +169,6 @@ const Saham=styled.span`
 
 `;
 
-const staticBalances = {
-  lina: 8.76,
-  binancecoin: 6.45,
-  tether: 0.5,
-  fantom: 5.2,
-  "matic-network": 11.23,
-  tron: -4.81,
-};
 const Balance = styled.span`
   font-size: 14px;
   font-weight: bold;
@@ -187,8 +183,8 @@ const CryptoChart = () => {
 
   useEffect(() => {
     const coinIds = ["binancecoin", "tether", "fantom", "matic-network", "tron"];
-
-    fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIds.join(",")}`)
+  
+    fetch(CoinsApi(coinIds)) 
       .then(response => response.json())
       .then(data => setCoins(data))
       .catch(error => console.error("Error fetching data:", error));

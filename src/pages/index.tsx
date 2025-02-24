@@ -8,29 +8,25 @@ import TopText from "@/components/topText";
 import CryptoCard from "@/components/cards"
 import CryptoTradeBox from "@/components/trade";
 import CryptoChart from "@/components/chart"
-import GaugeChart from "@/components/userLevel"
+import CardComponent from "@/components/userLevel";
 import ExchangeBox from "@/components/tradeMobile"
 import Coins from "@/components/coins"
-
+import styled from "styled-components";
 
 export default function Home() {
   return (
-    // <>
-    //  <div>
-    //   <Navbar/>
-    
-    //   </div>
-    // </>
     <>
-    <div style={{ display: "flex" }}>
+    <div >
       <Sidebar /> 
-      <div style={{ flex: 1 }}> 
+      <div > 
         <Navbar />
         <TopText /> 
         <CryptoCard/>
-       <CryptoTradeBox/>
-       <CryptoChart/>
-       <GaugeChart/>
+        <CryptoChart/> 
+        <CryptoTradeBox/>
+
+       <CardComponent/>
+       {/* <GaugeChart/> */}
        <ExchangeBox/>
        <Coins/>
       </div>

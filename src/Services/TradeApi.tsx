@@ -1,0 +1,1 @@
+export const TradeingApi='https://test.tetherland.app/api/v5/user/converter/submit';
